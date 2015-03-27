@@ -2,7 +2,7 @@ syncscroll
 ==========
 
 
-Syncscroll is a tiny javascript library (991 bytes minified) which allows to scroll two or more scrollable areas simultaneously [online
+Syncscroll is a tiny javascript library (991 bytes minified) which allows to scroll two or more scrollable areas simultaneously ([online
 demo](http://asvd.github.io/syncscroll/)).
 
 
@@ -18,7 +18,8 @@ unpack it and load the `syncscroll.js` in a preferable way (that is an UMD modul
 ```
 
 Create the scrollable elements which you need to be synchroniously
-scrolled, add the `syncscroll` for them, and set the `name` attribute to the same value:
+scrolled, add the `syncscroll` class for them, and set the `name`
+attribute to the same value:
 
 
 ```html
