@@ -34,7 +34,7 @@ attribute to the same value:
 
 That's it! Now the elements will be scrolled simultaneously. Keep in
 mind that scrolling is synchronized proportionally, and not by
-coordinate.
+amount of pixels.
 
 If you change the set of synchronized elements by changing the classes
 or attributes, invoke `syncscroll.reset()` to update the listeners.
