@@ -36,7 +36,7 @@ That's it! Now the elements will be scrolled simultaneously. Keep in
 mind that scrolling is synchronized proportionally, and not by
 amount of pixels.
 
-If you change the set of synchronized elements by changing the classes
+If you update the set of synchronized elements by changing the classes
 or attributes, invoke `syncscroll.reset()` to update the listeners.
 
 Have fun!
