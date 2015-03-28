@@ -10,7 +10,7 @@ demo](http://asvd.github.io/syncscroll/)).
 
 
 Download the
-[distribution](https://github.com/asvd/syncscroll/releases/download/v0.0.1/syncscroll-0.0.1.tar.gz),
+[distribution](https://github.com/asvd/syncscroll/releases/download/v0.0.2/syncscroll-0.0.2.tar.gz),
 unpack it and load the `syncscroll.js` in a preferable way (that is an UMD module):
 
 ```html

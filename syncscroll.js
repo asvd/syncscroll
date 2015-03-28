@@ -1,6 +1,6 @@
 /**
  * @fileoverview syncscroll - scroll several areas simultaniously
- * @version 0.0.1
+ * @version 0.0.2
  * 
  * @license MIT, see http://github.com/asvd/intence
  * @copyright 2015 asvd <heliosframework@gmail.com> 
@@ -27,8 +27,8 @@ function (exports) {
 
     var reset = function() {
         var elems = document.getElementsByClassName('syncscroll');
-        var i, j, el, found;
-        for (var name in names) {
+        var i, j, el, found, name;
+        for (name in names) {
             if (names.hasOwnProperty(name)) {
                 for (i = 0; i < names[name].length; i++) {
                     names[name][i].removeEventListener(
@@ -61,63 +61,68 @@ function (exports) {
                 names[name].push(el);
             }
 
-            el.lX = 0;
-            el.lY = 0;
+            el.eX = el.eY = 0;
 
             (function(el, name) {
-                 el.addEventListener(
-                     'scroll',
-                     el.syn = function() {
-                         var elems = names[name];
+                el.addEventListener(
+                    'scroll',
+                    el.syn = function() {
+                        var elems = names[name];
 
-                         var xTotal = el[scroll+Width] - el[client+Width];
-                         var yTotal = el[scroll+Height] - el[client+Height];
+                        var scrollX = el[scroll+Left];
+                        var scrollY =  el[scroll+Top];
 
-                         var xRate = el[scroll+Left] / xTotal;
-                         var yRate = el[scroll+Top] / yTotal;
+                        var xRate =
+                            scrollX /
+                            (el[scroll+Width] - el[client+Width]);
+                        var yRate =
+                            scrollY /
+                            (el[scroll+Height] - el[client+Height]);
 
-                         var updateX = 0;
-                         var updateY = 0;
+                        var updateX = 0;
+                        var updateY = 0;
 
-                         var otherEl, i;
+                        var otherEl, i;
 
-                         if (xRate != el.lX) {
-                             updateX = 1;
-                             el.lX = xRate;
-                         }
+                        if (scrollX != el.eX) {
+                            updateX = 1;
+                            el.eX = scrollX;
+                        }
 
-                         if (yRate != el.lY) {
-                             updateY = 1;
-                             el.lY = yRate;
-                         }
+                        if (scrollY != el.eY) {
+                            updateY = 1;
+                            el.eY = scrollY;
+                        }
 
-                         for (i = 0; i < elems.length; i++) {
-                             otherEl = elems[i];
-                             if (otherEl != el) {
-                                 if (updateX) {
-                                     xTotal = otherEl[scroll+Width] -
-                                              otherEl[client+Width];
+                        for (i = 0; i < elems.length; i++) {
+                            otherEl = elems[i];
+                            if (otherEl != el) {
+                                if (updateX) {
+                                    scrollX = Math.round(
+                                        xRate *
+                                        (otherEl[scroll+Width] -
+                                         otherEl[client+Width])
+                                    );
 
-                                     otherEl.lX = xRate;
+                                    otherEl.eX =
+                                       otherEl[scroll+Left] = scrollX;
+                                }
+                                
+                                if (updateY) {
+                                    scrollY =Math.round(
+                                        yRate *
+                                        (otherEl[scroll+Height] -
+                                         otherEl[client+Height])
+                                    ); 
 
-                                     otherEl[scroll+Left] =
-                                         Math.round(xTotal * xRate);
-                                 }
-                                 
-                                 if (updateY) {
-                                     yTotal = otherEl[scroll+Height] -
-                                              otherEl[client+Height];
-
-                                     otherEl.lY = yRate;
-
-                                     otherEl[scroll+Top] =
-                                         Math.round(yTotal * yRate);
-                                 }
-                             }
-                         }
-                     }, 0
-                 );
-             })(el, name);
+                                    otherEl.eY =
+                                        otherEl[scroll+Top] = scrollY;
+                                }
+                            }
+                        }
+                    }, 0
+                );
+            })(el, name);
         }
     }
     
