@@ -2,15 +2,16 @@ syncscroll
 ==========
 
 
-Syncscroll is a tiny javascript library (991 bytes minified) which allows to scroll two or more scrollable areas simultaneously ([online
-demo](http://asvd.github.io/syncscroll/)).
+Syncscroll is a micro library (946 bytes minified) written in vanilla
+javascript, which allows to scroll two or more scrollable areas
+simultaneously ([online demo](http://asvd.github.io/syncscroll/)).
 
 
 ### Usage
 
 
 Download the
-[distribution](https://github.com/asvd/syncscroll/releases/download/v0.0.2/syncscroll-0.0.2.tar.gz),
+[distribution](https://github.com/asvd/syncscroll/releases/download/v0.0.3/syncscroll-0.0.3.tar.gz),
 unpack it and load the `syncscroll.js` in a preferable way (that is an UMD module):
 
 ```html

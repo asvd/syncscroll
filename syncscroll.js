@@ -1,6 +1,6 @@
 /**
  * @fileoverview syncscroll - scroll several areas simultaniously
- * @version 0.0.2
+ * @version 0.0.3
  * 
  * @license MIT, see http://github.com/asvd/intence
  * @copyright 2015 asvd <heliosframework@gmail.com> 
@@ -15,46 +15,50 @@
     } else {
         factory((root.syncscroll = {}));
     }
-}(this,
-function (exports) {
+}(this,function (exports) {
     var Width = 'Width';
     var Height = 'Height';
     var Top = 'Top';
     var Left = 'Left';
     var scroll = 'scroll';
     var client = 'client';
-    var names = [];
+    var EventListener = 'EventListener';
+    var addEventListener = 'add' + EventListener;
+    var length = 'length';
+    var Math_round = Math.round;
+
+    var names = {};
 
     var reset = function() {
-        var elems = document.getElementsByClassName('syncscroll');
+        var elems = document.getElementsByClassName('sync'+scroll);
+
+        // clearing existing listeners
         var i, j, el, found, name;
         for (name in names) {
             if (names.hasOwnProperty(name)) {
-                for (i = 0; i < names[name].length; i++) {
-                    names[name][i].removeEventListener(
-                        'scroll', names[name][i].syn, 0
+                for (i = 0; i < names[name][length]; i++) {
+                    names[name][i]['remove'+EventListener](
+                        scroll, names[name][i].syn, 0
                     );
                 }
             }
         }
 
-        for (i = 0; i < elems.length; i++) {
-            found = 0;
-            el = elems[i];
+        // setting-up the new listeners
+        for (i = 0; i < elems[length];) {
+            found = j = 0;
+            el = elems[i++];
             if (!(name = el.getAttribute('name'))) {
+                // name attribute is not set
                 continue;
             }
 
-            el = el.scroller||el;
+            el = el[scroll+'er']||el;  // needed for intence
 
-            if (!names[name]) {
-                names[name] = [];
-            }
-
-            for (j = 0; j < names[name].length; j++) {
-                if (names[name][j] == el) {
-                    found = 1;
-                }
+            // searching for existing entry in array of names;
+            // searching for the element in that entry
+            for (;j < (names[name] = names[name]||[])[length];) {
+                found |= names[name][j++] == el;
             }
 
             if (!found) {
@@ -64,13 +68,13 @@ function (exports) {
             el.eX = el.eY = 0;
 
             (function(el, name) {
-                el.addEventListener(
-                    'scroll',
+                el[addEventListener](
+                    scroll,
                     el.syn = function() {
                         var elems = names[name];
 
                         var scrollX = el[scroll+Left];
-                        var scrollY =  el[scroll+Top];
+                        var scrollY = el[scroll+Top];
 
                         var xRate =
                             scrollX /
@@ -79,44 +83,41 @@ function (exports) {
                             scrollY /
                             (el[scroll+Height] - el[client+Height]);
 
-                        var updateX = 0;
-                        var updateY = 0;
+                        var updateX = scrollX != el.eX;
+                        var updateY = scrollY != el.eY;
 
-                        var otherEl, i;
+                        var otherEl, i = 0;
 
-                        if (scrollX != el.eX) {
-                            updateX = 1;
-                            el.eX = scrollX;
-                        }
+                        el.eX = scrollX;
+                        el.eY = scrollY;
 
-                        if (scrollY != el.eY) {
-                            updateY = 1;
-                            el.eY = scrollY;
-                        }
-
-                        for (i = 0; i < elems.length; i++) {
-                            otherEl = elems[i];
+                        for (;i < elems[length];) {
+                            otherEl = elems[i++];
                             if (otherEl != el) {
-                                if (updateX) {
-                                    scrollX = Math.round(
-                                        xRate *
-                                        (otherEl[scroll+Width] -
-                                         otherEl[client+Width])
-                                    );
-
-                                    otherEl.eX =
-                                       otherEl[scroll+Left] = scrollX;
+                                if (updateX &&
+                                    Math_round(
+                                        otherEl[scroll+Left] -
+                                        (scrollX = otherEl.eX =
+                                         Math_round(xRate *
+                                             (otherEl[scroll+Width] -
+                                              otherEl[client+Width]))
+                                        )
+                                    )
+                                ) {
+                                    otherEl[scroll+Left] = scrollX;
                                 }
                                 
-                                if (updateY) {
-                                    scrollY =Math.round(
-                                        yRate *
-                                        (otherEl[scroll+Height] -
-                                         otherEl[client+Height])
-                                    ); 
-
-                                    otherEl.eY =
-                                        otherEl[scroll+Top] = scrollY;
+                                if (updateY &&
+                                    Math_round(
+                                        otherEl[scroll+Top] -
+                                        (scrollY = otherEl.eY =
+                                         Math_round(yRate *
+                                             (otherEl[scroll+Height] -
+                                              otherEl[client+Height]))
+                                        )
+                                    )
+                                ) {
+                                    otherEl[scroll+Top] = scrollY;
                                 }
                             }
                         }
@@ -126,12 +127,11 @@ function (exports) {
         }
     }
     
-    
        
     if (document.readyState == "complete") {
         reset();
     } else {
-        window.addEventListener("load", reset, 0);
+        window[addEventListener]("load", reset, 0);
     }
 
     exports.reset = reset;
