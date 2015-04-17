@@ -1,0 +1,28 @@
+{
+  "name": "syncscroll",
+  "version": "0.0.3",
+  "homepage": "https://github.com/asvd/syncscroll",
+  "authors": [
+    "Dmitry Prokashev <heliosframework@gmail.com>"
+  ],
+  "description": "Scroll two or more areas simultaneously",
+  "main": "syncscroll.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "scroll",
+    "scrolling",
+    "synchronous",
+    "simultaneous"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -10,12 +10,18 @@ simultaneously ([online demo](http://asvd.github.io/syncscroll/)).
 ### Usage
 
 
-Download the
+Download and unpack the
 [distribution](https://github.com/asvd/syncscroll/releases/download/v0.0.3/syncscroll-0.0.3.tar.gz),
-unpack it and load the `syncscroll.js` in a preferable way (that is an UMD module):
+or install it using [Bower](http://bower.io/):
+
+```sh
+$ bower install syncscroll
+```
+
+Load the `syncscroll.js` in a preferable way (that is an UMD module):
 
 ```html
-<script src="syncscroll.js"></script>
+<script src="path/to/syncscroll.js"></script>
 ```
 
 Create the scrollable elements which you need to be synchroniously
@@ -41,3 +47,6 @@ If you update a set of synchronized elements by changing the classes
 or attributes, invoke `syncscroll.reset()` to update the listeners.
 
 Have fun!
+
+
+follow me on twitter: https://twitter.com/asvd0
